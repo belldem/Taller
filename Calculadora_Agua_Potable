@@ -1,0 +1,55 @@
+import java.util.Scanner;
+
+public class CalculadoraAguaPotable {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Ingrese el consumo de agua en m³: ");
+        double consumo = scanner.nextDouble();
+
+        System.out.print("¿Es el usuario de la tercera edad? (si/no): ");
+        boolean esTerceraEdad = scanner.next().equalsIgnoreCase("si");
+
+        System.out.print("¿Tiene el usuario alguna discapacidad? (si/no): ");
+        boolean tieneDiscapacidad = scanner.next().equalsIgnoreCase("si");
+
+        double porcentajeDiscapacidad = 0;
+
+        if (tieneDiscapacidad) {
+            System.out.print("Ingrese el porcentaje de discapacidad: ");
+            porcentajeDiscapacidad = scanner.nextDouble();
+        }
+
+        double valorAguaPotable = calcularValorAguaPotable(consumo);
+        double impuestoAlcantarillado = valorAguaPotable * 0.35;
+        double tasaBasura = 0.75;
+        double tasaDatos = 0.50;
+
+        // Aplicar descuento si corresponde
+        if (esTerceraEdad && consumo <= 15) {
+            valorAguaPotable *= 0.5; // Descuento del 50%
+        } else if (esTerceraEdad && consumo > 15 && consumo <= 25) {
+            valorAguaPotable *= 0.7; // Descuento del 30% sobre el rango base
+        } else if (tieneDiscapacidad && consumo <= 15) {
+            valorAguaPotable *= (1 - porcentajeDiscapacidad / 100);
+        }
+
+        double valorTotal = valorAguaPotable + impuestoAlcantarillado + tasaBasura + tasaDatos;
+
+        System.out.println("Valor total a pagar: $" + valorTotal);
+    }
+
+    public static double calcularValorAguaPotable(double consumo) {
+        if (consumo <= 15) {
+            return 3.0;
+        } else if (consumo <= 25) {
+            return 3.0 + (consumo - 15) * 0.1;
+        } else if (consumo <= 40) {
+            return 3.0 + 10 * 0.1 + (consumo - 25) * 0.2;
+        } else if (consumo <= 60) {
+            return 3.0 + 10 * 0.1 + 15 * 0.2 + (consumo - 40) * 0.3;
+        } else {
+            return 3.0 + 10 * 0.1 + 15 * 0.2 + 20 * 0.3 + (consumo - 60) * 0.35;
+        }
+    }
+}
