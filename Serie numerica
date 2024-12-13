@@ -1,0 +1,23 @@
+import java.util.Scanner;
+public class SerieNumerica {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Ingrese la cantidad de términos a calcular: ");
+        int n = scanner.nextInt();
+
+        double resultado = 0;
+        int signo = 1;
+        int denominador = 1;
+        int exponente = 2;
+
+        for (int i = 0; i < n; i++) {
+            resultado += signo * Math.pow((double) denominador / (denominador + 2), exponente);
+            signo *= -1;
+            denominador += 2;
+            exponente += 2;
+        }
+
+        System.out.println("La suma de los " + n + " términos es: " + resultado);
+    }
+}
