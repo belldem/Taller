@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+public class LlamadasInternacionales {
+    public enum Zona {
+        AMERICA_DEL_NORTE(12, 2.75),
+        AMERICA_CENTRAL(15, 1.89),
+        AMERICA_DEL_SUR(18, 1.60),
+        EUROPA(19, 3.5),
+        ASIA(23, 4.5),
+        AFRICA(25, 3.1),
+        OCEANIA(29, 3),
+        RESTO_DEL_MUNDO(31, 6);
+
+        private final int clave;
+        private final double precioPorMinuto;
+
+        Zona(int clave, double precioPorMinuto) {
+            this.clave = clave;
+            this.precioPorMinuto = precioPorMinuto;
+        }
+
+        public int getClave() {
+            return clave;
+        }
+
+        public double getPrecioPorMinuto() {
+            return precioPorMinuto;
+        }
+    }
+
+    public static class Llamada {
+        private Zona zona;
+        private int duracion; // en minutos
+
+        public Llamada(Zona zona, int duracion) {
+            this.zona = zona;
+            this.duracion = duracion;
+        }
+
+        public double calcularCosto() {
+            return zona.getPrecioPorMinuto() * duracion;
+        }
+    }
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Seleccione la zona:");
+            for (Zona zona : Zona.values()) {
+                System.out.println(zona + " (" + zona.getClave() + ")");
+            }
+
+            int claveZona = scanner.nextInt();
+            Zona zonaSeleccionada = null;
+            for (Zona zona : Zona.values()) {
+                if (zona.getClave() == claveZona) {
+                    zonaSeleccionada = zona;
+                    break;
+                }
+            }
+
+            if (zonaSeleccionada == null) {
+                System.out.println("Zona inválida.");
+                return;
+            }
+
+            System.out.print("Ingrese la duración de la llamada en minutos: ");
+            int duracion = scanner.nextInt();
+
+            Llamada llamada = new Llamada(zonaSeleccionada, duracion);
+            double costo = llamada.calcularCosto();
+
+            System.out.println("El costo de la llamada es: $" + costo);
+        }
+    }
+}
