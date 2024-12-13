@@ -1,0 +1,51 @@
+import java.util.Scanner;
+public class CalculadoraSueldosAutos {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double sueldoBase = 2500.0;
+        double comisionPorAuto = 250.0;
+        double porcentajeUtilidad = 0.05;
+
+        System.out.println("Ingrese los datos de cada empleado (ingrese 0 para terminar):");
+
+        while (true) {
+            System.out.print("Ingrese el nombre del empleado: ");
+            String nombre = scanner.nextLine();
+            if (nombre.equals("0")) {
+                break;
+            }
+
+            int totalAutosVendidos = 0;
+            double valorTotalVentas = 0;
+            double comisionTotal = 0;
+
+            while (true) {
+                System.out.print("Ingrese el valor de venta del auto (o 0 para finalizar): ");
+                double valorAuto = scanner.nextDouble();
+                if (valorAuto == 0) {
+                    break;
+                }
+
+                totalAutosVendidos++;
+                valorTotalVentas += valorAuto;
+                if (valorAuto > 10000) {
+                    comisionTotal += comisionPorAuto;
+                }
+            }
+
+            double utilidad = valorTotalVentas * porcentajeUtilidad;
+            double sueldoTotal = sueldoBase + comisionTotal + utilidad;
+
+            System.out.println("\nInforme para " + nombre + ":");
+            System.out.println("Total de autos vendidos: " + totalAutosVendidos);
+            System.out.println("Valor total de ventas: $" + valorTotalVentas);
+            System.out.println("Sueldo base: $" + sueldoBase);
+            System.out.println("Comisión total: $" + comisionTotal);
+            System.out.println("Utilidad: $" + utilidad);
+            System.out.println("Sueldo total: $" + sueldoTotal);
+            System.out.println("----------------------------------------");
+        }
+
+        scanner.close();
+    }
+}
